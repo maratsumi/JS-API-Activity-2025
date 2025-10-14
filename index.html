@@ -23,23 +23,22 @@ comments of my program. -->
     </div>
   </body>
   <script type="module">
+    import * as audio_module from "./modules/audio_api.js";
+    import * as anim_module from "./modules/web-anim_api.js";
+    import * as storage_module from "./modules/storage_api.js";
+    import * as clipboard_module from "./modules/clipboard_api.js";
+
     // URLS
     const DICTIONARY_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
     const BOOK_URL = "https://gutendex.com/books";
 
-    // AUDIO
-    const audioContext = new AudioContext();
-    const audio_player = document.querySelector("#bgm");
-    const bgm = audioContext.createMediaElementSource(audio_player);
-    bgm.connect(audioContext.destination);
-
-    const last_search = localStorage.getItem("lastSearch");
     const search_button = document.querySelector("#search-button");
     const search_bar = document.querySelector("#search-bar");
     let search_query;
 
     // Load last search
-    addEventListener("DOMContentLoaded", (event) => {
+    let last_search = storage_module.getLastSearch();
+    addEventListener("DOMContentLoaded", (evt) => {
       if (last_search) {
         searchDictionary(last_search);
       }
@@ -53,25 +52,13 @@ comments of my program. -->
       searchDictionary(search_query);
 
       // Web Storage API; Save last search
-      localStorage.setItem("lastSearch", search_query);
+      storage_module.saveQuery(search_query);
 
       // Web Audio API; Audio player
-      audio_player.play();
-      setTimeout(() => {
-        audio_player.pause();
-      }, 5000);
+      audio_module.playBGM();
 
       // Web Animation API; Play simple animation
-      const result_container = document.querySelector("#result");
-      const pageAnimation = result_container.animate(
-        [
-          { transform: "translateY(200px)", opacity: 0.1 },
-          { transform: "translateY(0px)", opacity: 1 },
-        ],
-        {
-          duration: 4500,
-        }
-      );
+      anim_module.playAnimation();
     });
 
     function searchDictionary(query) {
@@ -109,6 +96,7 @@ comments of my program. -->
               const body_antonyms = document.createElement("p");
               const synonyms_button = document.createElement("button");
               const copy_synonyms_button = document.createElement("button");
+              copy_synonyms_button.setAttribute("id", "copy_button");
               const antonyms_button = document.createElement("button");
 
               meaning_body.innerHTML =
@@ -136,12 +124,7 @@ comments of my program. -->
 
               // Clipboard API; Copy synonyms to clipboard
               copy_synonyms_button.addEventListener("click", () => {
-                if (meanings.synonyms.length != 0) {
-                  navigator.clipboard.writeText(meanings.synonyms);
-                  copy_synonyms_button.textContent = "Copied";
-                } else {
-                  copy_synonyms_button.textContent = "No synonym available";
-                }
+                clipboard_module.clipboardCopy(meanings);
               });
 
               antonyms_button.addEventListener("click", () => {
