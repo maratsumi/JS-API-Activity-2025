@@ -8,8 +8,6 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/static/index.html");
 });
 
-app.get("/dictionary");
-
 app.get("/dictionary/:query", (req, res) => {
   const DICTIONARY_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
   search_query = DICTIONARY_URL + req.params.query;
@@ -33,6 +31,23 @@ app.get("/quotes/:query", (req, res) => {
   console.log(quote_query);
 
   fetch(quote_query)
+    .then((result) => {
+      return result.json();
+    })
+    .then((result) => {
+      res.end(JSON.stringify(result));
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.get("/books/:query", (req, res) => {
+  const BOOK_URL = "https://gutendex.com/books/";
+  book_query = BOOK_URL + "?search=" + req.params.query;
+  console.log(book_query);
+
+  fetch(book_query)
     .then((result) => {
       return result.json();
     })
