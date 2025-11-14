@@ -12,12 +12,16 @@ app.get("/dictionary/:query", (req, res) => {
   const DICTIONARY_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
   search_query = DICTIONARY_URL + req.params.query;
   console.log(search_query);
+
   fetch(search_query)
     .then((result) => {
       return result.json();
     })
     .then((result) => {
       res.end(JSON.stringify(result));
+    })
+    .catch((err) => {
+      console.log(err);
     });
 });
 
