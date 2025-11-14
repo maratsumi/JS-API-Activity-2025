@@ -9,6 +9,14 @@ function playAnimation() {
       duration: 4500,
     }
   );
+
+  const quote_container = document.querySelector("#quote");
+  const quoteAnimation = quote_container.animate(
+    [{ opacity: 0 }, { opacity: 1 }],
+    {
+      duration: 2500,
+    }
+  );
 }
 
 export { playAnimation };
