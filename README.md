@@ -1,6 +1,9 @@
 **DISCLAIMER:** The code that appears in this repository was done for a school activity. This application was not intended to be used in real world applications, so expect some forms of incompleteness such as a lack of error control. Instead, it shows the fundamental Javascript knowledge the developer has learned in their class.
 ## How to start
-run node app.js
+run 
+```
+node app.js
+```
 ### Available URLs
 - http://127.0.0.1:3000
 - http://127.0.0.1:3000/dictionary/:query
