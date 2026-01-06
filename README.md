@@ -17,4 +17,4 @@ For dictionary and books, the ':query' route extension is expected to be any ASC
 For quotes, the ':query' route extension is expected to be any integer from 1-10.
 - For quotes, this will return a number of quotes based on the query
 
-All routes, aside from the index, returns a raw JSON response. However, it was turned into a string to make it available for viewing on the web.
+All routes, aside from the index, returns a raw JSON response. However, it was turned into a string to make it available for viewing on the web for testing purposes.
